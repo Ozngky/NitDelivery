@@ -2,10 +2,10 @@
 
 **Gelişmiş Minecraft Teslimat Sistemi Plugin'i**
 
-[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](https://github.com/ozngky/NitDelivery)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](https://github.com/Ozngky/NitDelivery)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-blue.svg)](https://www.spigotmc.org/)
 [![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Ozngky/NitDelivery/blob/main/LICENSE)
 
 ## 📋 İçindekiler
 
@@ -65,7 +65,7 @@
 
 1. **Plugin Dosyasını İndirin**
    ```bash
-   wget https://github.com/ozngky/NitDelivery/releases/latest/download/NitDelivery.jar
+   wget https://github.com/Ozngky/NitDelivery/releases/latest/download/NitDelivery.jar
    ```
 
 2. **Plugins Klasörüne Yerleştirin**
@@ -221,6 +221,8 @@ nitdelivery.global.stats:
     <scope>provided</scope>
 </dependency>
 ```
+
+**GitHub Repository**: https://github.com/Ozngky/NitDelivery
 
 ### Temel API Kullanımı
 
@@ -453,7 +455,7 @@ src/main/java/com/ozngky/nitdelivery/
 
 ```bash
 # Projeyi klonlayın
-git clone https://github.com/ozngky/NitDelivery.git
+git clone https://github.com/Ozngky/NitDelivery.git
 cd NitDelivery
 
 # Maven ile build edin
@@ -474,7 +476,7 @@ mvn integration-test
 
 ## 🐛 Hata Raporlama
 
-Hata bulduğunuzda lütfen aşağıdaki bilgileri ile birlikte GitHub Issues sayfasında bildirin:
+Hata bulduğunuzda lütfen aşağıdaki bilgileri ile birlikte [GitHub Issues](https://github.com/Ozngky/NitDelivery/issues) sayfasında bildirin:
 
 - **Minecraft Versiyonu**
 - **Plugin Versiyonu**
@@ -543,19 +545,25 @@ Projeye katkıda bulunmak istiyorsanız:
 
 ## 📝 Lisans
 
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](https://github.com/Ozngky/NitDelivery/blob/main/LICENSE) dosyasına bakın.
 
 ## 👥 İletişim ve Destek
 
-- **GitHub**: [@ozngky](https://github.com/ozngky)
-- **Discord**: `ozngky#1234`
-- **Email**: ozngky@example.com
-- **Website**: [https://nitdelivery.ozngky.com](https://nitdelivery.ozngky.com)
+- **GitHub**: [@Ozngky](https://github.com/Ozngky)
+- **Discord**: `Ozngky`
+- **Email**: [mail@bloknit.com](mailto:mail@bloknit.com)
+- **Website**: [https://bloknit.com](https://bloknit.com)
+
+### Proje Linkleri
+- **Repository**: [NitDelivery](https://github.com/Ozngky/NitDelivery)
+- **Issues**: [Bug Report & Feature Request](https://github.com/Ozngky/NitDelivery/issues)
+- **Releases**: [Latest Downloads](https://github.com/Ozngky/NitDelivery/releases)
 
 ### Destek Kanalları
-- 📋 **GitHub Issues**: Bug report ve feature request
-- 💬 **Discord Server**: Anlık destek ve topluluk
-- 📧 **Email**: Özel destek ve iş birliği
+- 📋 **GitHub Issues**: [Bug report ve feature request](https://github.com/Ozngky/NitDelivery/issues)
+- 📖 **GitHub Wiki**: [Detaylı dokümantasyon](https://github.com/Ozngky/NitDelivery/wiki)
+- 🔄 **GitHub Discussions**: [Topluluk tartışmaları](https://github.com/Ozngky/NitDelivery/discussions)
+- 📦 **GitHub Releases**: [Güncel sürümler](https://github.com/Ozngky/NitDelivery/releases)
 
 ## 🙏 Teşekkürler
 
@@ -567,4 +575,6 @@ Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICE
 
 **NitDelivery** ile sunucunuzda profesyonel teslimat sistemi kurun! 🚚✨
 
-*Made with ❤️ by [Ozngky](https://github.com/ozngky)* 
+---
+
+*Made with ❤️ by [Ozngky](https://bloknit.com) - Visit [bloknit.com](https://bloknit.com) for more projects* 
