@@ -24,7 +24,8 @@
 
 ### 🎯 Temel Özellikler
 - **NPC Tabanlı Sistem**: Citizens plugin entegrasyonu ile teslimat NPC'leri
-- **Kategori Sistemi**: Organize edilmiş ürün kategorileri (Yiyecek, İçecek, Teknoloji, Giyim)
+- **Minecraft Uyumlu Kategori Sistemi**: Bloklar, Madenler, Tarım, Yemekler kategorileri
+- **Dinamik Kategori Yönetimi**: Oyun içinden kategori ekleme, silme ve düzenleme
 - **Gerçek Zamanlı Teslimat**: Async işlemlerle optimum performans
 - **Kapsamlı İstatistikler**: Detaylı oyuncu ve sunucu istatistikleri
 - **Başarım Sistemi**: 6 farklı başarım seviyesi
@@ -158,6 +159,51 @@ performance:
 | `/nitdelivery reload` | Plugin'i yeniden yükler | `/nitdelivery reload` |
 | `/nitdelivery reset` | İstatistikleri sıfırlar | `/nitdelivery reset [oyuncu]` |
 | `/nitdelivery info` | Plugin bilgilerini gösterir | `/nitdelivery info` |
+| `/nitdelivery category` | Kategori yönetimi | `/nitdelivery category <komut>` |
+
+### Kategori Yönetimi Komutları
+
+| Komut | Açıklama | Kullanım |
+|-------|----------|----------|
+| `/nitdelivery category list` | Kategorileri listeler | `/nitdelivery category list` |
+| `/nitdelivery category add` | Yeni kategori ekler | `/nitdelivery category add <id> <isim> <açıklama> <materyal> <slot>` |
+| `/nitdelivery category remove` | Kategori siler | `/nitdelivery category remove <id>` |
+| `/nitdelivery category edit` | Kategori düzenler | `/nitdelivery category edit <id> <özellik> <değer>` |
+| `/nitdelivery category setslot` | Kategori slotunu değiştirir | `/nitdelivery category setslot <id> <slot>` |
+| `/nitdelivery category toggle` | Kategori durumunu değiştirir | `/nitdelivery category toggle <id>` |
+
+#### Kategori Yönetimi Örnekleri
+
+```bash
+# Yeni kategori ekleme
+/nitdelivery category add weapons "Silahlar" "Savaş aletleri" IRON_SWORD 14
+
+# Kategori ismini değiştirme
+/nitdelivery category edit weapons name "Savaş Aletleri"
+
+# Kategori slotunu değiştirme
+/nitdelivery category setslot weapons 15
+
+# Kategori durumunu değiştirme (aktif/pasif)
+/nitdelivery category toggle weapons
+
+# Kategori silme
+/nitdelivery category remove weapons
+```
+
+#### Düzenlenebilir Kategori Özellikleri
+- **name**: Kategori görünen ismi
+- **description**: Kategori açıklaması
+- **icon**: Kategori ikonu (Minecraft materyal ismi)
+
+### Varsayılan Minecraft Kategorileri
+
+| Kategori | Açıklama | Slot | Ürünler |
+|----------|----------|------|---------|
+| **Bloklar** | İnşaat için bloklar | 10 | Ahşap, Taş, Cam, Yün |
+| **Madenler** | Değerli madenler | 11 | Demir, Altın, Elmas, Zümrüt |
+| **Tarım** | Tarım ürünleri | 12 | Buğday, Havuç, Patates, Pancar |
+| **Yemekler** | Lezzetli yemekler | 13 | Ekmek, Biftek, Balık, Pasta |
 
 ## 🔐 İzinler
 
@@ -194,6 +240,30 @@ nitdelivery.reload:
 
 nitdelivery.reset:
   description: İstatistik sıfırlama
+  default: op
+
+nitdelivery.category.manage:
+  description: Kategori yönetimi
+  default: op
+
+nitdelivery.category.add:
+  description: Kategori ekleme
+  default: op
+
+nitdelivery.category.remove:
+  description: Kategori silme
+  default: op
+
+nitdelivery.category.edit:
+  description: Kategori düzenleme
+  default: op
+
+nitdelivery.category.list:
+  description: Kategori listesini görme
+  default: op
+
+nitdelivery.category.toggle:
+  description: Kategori durumunu değiştirme
   default: op
 ```
 
@@ -240,12 +310,74 @@ public class MyPlugin extends JavaPlugin {
         PlayerStats stats = nitDelivery.getPlayerStatsManager()
             .getPlayerStats(player.getUniqueId());
         
-        // Yeni sipariş oluşturun
-        Product product = nitDelivery.getCategoryManager()
-            .getProduct("food", "burger");
+        // Kategori yönetimi
+        CategoryManager categoryManager = nitDelivery.getCategoryManager();
         
-        boolean success = nitDelivery.getDeliveryManager()
+        // Yeni kategori oluşturun
+        boolean success = categoryManager.createCategory(
+            "weapons", 
+            "Silahlar", 
+            "Savaş aletleri", 
+            Material.IRON_SWORD, 
+            14
+        );
+        
+        // Kategori listesini alın
+        List<Category> categories = categoryManager.getEnabledCategories();
+        
+        // Belirli kategoriyi alın
+        Category weaponsCategory = categoryManager.getCategory("weapons");
+        
+        // Kategori ürünlerini alın
+        List<Product> weapons = categoryManager.getEnabledProducts("weapons");
+        
+        // Yeni sipariş oluşturun
+        Product product = categoryManager.getProduct("food", "burger");
+        
+        boolean orderSuccess = nitDelivery.getDeliveryManager()
             .createOrder(player, product);
+    }
+}
+```
+
+### Kategori Yönetimi API
+
+```java
+public class CategoryAPI {
+    
+    private CategoryManager categoryManager;
+    
+    public void manageCategoriesExample() {
+        // Kategori oluşturma
+        boolean created = categoryManager.createCategory(
+            "tools",           // Kategori ID
+            "Aletler",         // Kategori ismi
+            "Kullanışlı aletler", // Açıklama
+            Material.DIAMOND_PICKAXE, // İkon
+            16                 // Slot
+        );
+        
+        // Kategori güncelleme
+        categoryManager.updateCategoryName("tools", "Maden Aletleri");
+        categoryManager.updateCategoryDescription("tools", "Maden çıkarma aletleri");
+        categoryManager.updateCategoryIcon("tools", Material.IRON_PICKAXE);
+        categoryManager.updateCategorySlot("tools", 17);
+        
+        // Kategori durumunu değiştirme
+        categoryManager.toggleCategoryEnabled("tools");
+        
+        // Kategori silme
+        categoryManager.deleteCategory("tools");
+        
+        // Kategori sorgulama
+        boolean exists = categoryManager.categoryExists("tools");
+        boolean slotTaken = categoryManager.isSlotTaken(16);
+        int nextSlot = categoryManager.getNextAvailableSlot();
+        
+        // Kategorileri listeleme
+        List<String> categoryIds = categoryManager.getCategoryIds();
+        List<Category> allCategories = categoryManager.getAllCategories();
+        List<Category> enabledCategories = categoryManager.getEnabledCategories();
     }
 }
 ```
@@ -260,6 +392,22 @@ public void onDeliveryComplete(DeliveryCompleteEvent event) {
     double reward = event.getReward();
     
     // Custom logic burada
+}
+
+@EventHandler
+public void onCategoryCreate(CategoryCreateEvent event) {
+    Category category = event.getCategory();
+    CommandSender creator = event.getCreator();
+    
+    // Kategori oluşturma eventi
+}
+
+@EventHandler
+public void onCategoryDelete(CategoryDeleteEvent event) {
+    String categoryId = event.getCategoryId();
+    CommandSender deleter = event.getDeleter();
+    
+    // Kategori silme eventi
 }
 ```
 
@@ -444,9 +592,19 @@ CREATE TABLE server_stats (
 ```
 src/main/java/com/ozngky/nitdelivery/
 ├── commands/           # Komut işleyicileri
+│   ├── DeliveryCommand.java        # Ana komut (kategori yönetimi dahil)
+│   └── TeslimatolusturCommand.java # NPC oluşturma
 ├── listeners/          # Event listener'ları
 ├── managers/           # Core yönetici sınıfları
+│   ├── CategoryManager.java        # Kategori yönetimi (YENİ)
+│   ├── ConfigManager.java          # Konfigürasyon
+│   ├── DatabaseManager.java        # Veritabanı
+│   ├── DeliveryManager.java        # Teslimat sistemi
+│   └── ...
 ├── models/             # Veri modelleri
+│   ├── Category.java               # Kategori modeli (YENİ)
+│   ├── Product.java                # Ürün modeli
+│   └── ...
 ├── utils/              # Yardımcı araçlar
 └── NitDelivery.java    # Ana plugin sınıfı
 ```
@@ -520,6 +678,10 @@ java -Xms4G -Xmx8G -XX:+UseG1GC -XX:+ParallelRefProcEnabled \
 - ✅ Redis & RabbitMQ entegrasyonu
 - ✅ MySQL & SQLite desteği
 - ✅ Kapsamlı API
+- ✅ Minecraft uyumlu kategori sistemi
+- ✅ Dinamik kategori yönetimi
+- ✅ Oyun içi kategori komutları
+- ✅ Çoklu dil desteği (TR/EN)
 
 ### Gelecek Güncellemeler
 - 🔄 **v1.1.0**: Vault ekonomi entegrasyonu
